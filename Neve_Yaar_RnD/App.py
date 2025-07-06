@@ -66,6 +66,7 @@ if uploaded_file:
                 if st.button("➕ Add another plot"):
                     next_id = max(st.session_state.plots) + 1 if st.session_state.plots else 0
                     st.session_state.plots.append(next_id)
+                    st.rerun()
 
     except Exception as e:
         st.error(f"Error reading file: {e}")
