@@ -74,7 +74,6 @@ if uploaded_files:
                     combined_df = pd.concat(combined)
                     # Create a multi-selection on the legend (by column/variable)
                     highlight = alt.selection_multi(fields=["Variable"], bind="legend")
-                    
                     # Main chart with toggleable visibility
                     chart = alt.Chart(combined_df).mark_line(point=True).encode(
                         x=alt.X(x_col, title=str(x_col)),
