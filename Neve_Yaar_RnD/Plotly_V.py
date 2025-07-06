@@ -55,6 +55,7 @@ if uploaded_files:
 
             if selected_files and selected_cols:
                 fig = go.Figure()
+
                 for file in selected_files:
                     df = file_data[file]
                     for col in selected_cols:
@@ -63,14 +64,19 @@ if uploaded_files:
                                 x=df.index,
                                 y=df[col],
                                 mode='lines+markers',
-                                name=f"{col} ({file})"
+                                name=f"{col} ({file})"  # ensure unique trace name
                             ))
+                
                 fig.update_layout(
                     title=f"Plot {idx + 1}",
                     xaxis_title="Index",
                     yaxis_title="Value",
-                    hovermode="x unified"
+                    hovermode="x unified",
+                    dragmode="zoom",           # ✅ enables zoom interaction
+                    showlegend=True            # ✅ always show legend
                 )
+
+st.plotly_chart(fig, use_container_width=True)
                 st.plotly_chart(fig, use_container_width=True)
             else:
                 st.info("Please select at least one file and column.")
