@@ -35,14 +35,15 @@ if uploaded_file:
                     cols = st.columns([0.85, 0.15])
                     with cols[0]:
                         selected_cols = st.multiselect(
-                            f"Select columns for Plot {idx + 1}",
+                            f"Select columns to plot in Plot {idx + 1}",
                             numeric_cols,
                             key=f"col_select_{plot_id}"
                         )
                     with cols[1]:
                         if st.button("🗑️ Delete", key=f"delete_{plot_id}"):
-                            to_delete.append(plot_id)
-
+                            st.session_state.plots.remove(plot_id)
+                            st.experimental_rerun()
+                
                     if selected_cols:
                         melted = df_reset[[x_col] + selected_cols].melt(
                             id_vars=x_col, var_name="Variable", value_name="Value"
