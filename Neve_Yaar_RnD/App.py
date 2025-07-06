@@ -46,4 +46,12 @@ if uploaded_file:
                             x=alt.X(x_col, title=str(x_col)),
                             y=alt.Y(col, title=col),
                             tooltip=[x_col, col]
-                        ).interactive().properties(title=f
+                        ).interactive().properties(title=f"{title} – {col}")
+                        st.altair_chart(chart, use_container_width=True)
+
+                # Display plots
+                plot_columns(selected_cols_1, "First Plot")
+                plot_columns(selected_cols_2, "Second Plot")
+
+    except Exception as e:
+        st.error(f"Error reading file: {e}")
