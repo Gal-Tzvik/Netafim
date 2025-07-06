@@ -72,12 +72,16 @@ if uploaded_files:
 
                 if combined:
                     combined_df = pd.concat(combined)
+                    selection = alt.selection_multi(fields=["Variable"], bind="legend")
                     chart = alt.Chart(combined_df).mark_line(point=True).encode(
                         x=alt.X(x_col, title=str(x_col)),
                         y=alt.Y("Value", title="Value"),
-                        color="Variable:N",
-                        strokeDash="File:N",
-                        tooltip=[x_col, "Variable", "Value", "File"]
+                        color=alt.Color("Variable:N", title="Column"),
+                        strokeDash=alt.StrokeDash("File:N", title="File"),
+                        tooltip=[x_col, "Variable", "Value", "File"],
+                        opacity=alt.condition(selection, alt.value(1), alt.value(0.1))
+                    ).add_selection(
+                        selection
                     ).interactive().properties(title=f"Plot {idx + 1}")
                     st.altair_chart(chart, use_container_width=True)
                 else:
