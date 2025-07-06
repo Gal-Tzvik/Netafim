@@ -42,7 +42,7 @@ if uploaded_file:
                     with cols[1]:
                         if st.button("🗑️ Delete", key=f"delete_{plot_id}"):
                             st.session_state.plots.remove(plot_id)
-                            st.experimental_rerun()
+                            st.rerun()
                 
                     if selected_cols:
                         melted = df_reset[[x_col] + selected_cols].melt(
