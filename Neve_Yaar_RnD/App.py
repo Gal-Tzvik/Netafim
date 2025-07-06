@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import pickle
 import altair as alt
+import plotly
 st.set_page_config(layout="wide")
 st.title("Multi-PKL Visualizer (Altair + Dynamic Plots per File)")
 
