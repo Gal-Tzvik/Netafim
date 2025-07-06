@@ -72,17 +72,22 @@ if uploaded_files:
 
                 if combined:
                     combined_df = pd.concat(combined)
-                    selection = alt.selection_multi(fields=["Variable"], bind="legend")
+                    # Create a multi-selection on the legend (by column/variable)
+                    highlight = alt.selection_multi(fields=["Variable"], bind="legend")
+                    
+                    # Main chart with toggleable visibility
                     chart = alt.Chart(combined_df).mark_line(point=True).encode(
                         x=alt.X(x_col, title=str(x_col)),
                         y=alt.Y("Value", title="Value"),
                         color=alt.Color("Variable:N", title="Column"),
                         strokeDash=alt.StrokeDash("File:N", title="File"),
                         tooltip=[x_col, "Variable", "Value", "File"],
-                        opacity=alt.condition(selection, alt.value(1), alt.value(0.1))
+                        opacity=alt.condition(highlight, alt.value(1), alt.value(0))
                     ).add_selection(
-                        selection
-                    ).interactive().properties(title=f"Plot {idx + 1}")
+                        highlight
+                    ).properties(
+                        title=f"Plot {idx + 1}"
+                    ).interactive()
                     st.altair_chart(chart, use_container_width=True)
                 else:
                     st.info("No matching columns in selected files.")
