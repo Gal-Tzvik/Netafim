@@ -4,14 +4,16 @@ import pickle
 import plotly.graph_objects as go
 
 st.set_page_config(layout="wide")
-st.title("Multi-PKL Visualizer (Plotly + Independent Toggles)")
+st.title("Multi-PKL Visualizer (Plotly + Toggle + Zoom)")
 
 uploaded_files = st.file_uploader("Upload one or more .pkl files", type="pkl", accept_multiple_files=True)
 
+# Track plots by unique IDs
 if "plots" not in st.session_state:
     st.session_state.plots = [0]
 
 if uploaded_files:
+    # Load all uploaded .pkl files
     file_data = {}
     for file in uploaded_files:
         try:
@@ -53,9 +55,9 @@ if uploaded_files:
                     st.session_state.plots.remove(plot_id)
                     st.rerun()
 
+            # Plot only if both files and columns are selected
             if selected_files and selected_cols:
                 fig = go.Figure()
-
                 for file in selected_files:
                     df = file_data[file]
                     for col in selected_cols:
@@ -64,22 +66,20 @@ if uploaded_files:
                                 x=df.index,
                                 y=df[col],
                                 mode='lines+markers',
-                                name=f"{col} ({file})"  # ensure unique trace name
+                                name=f"{col} ({file})"
                             ))
-                
+
                 fig.update_layout(
                     title=f"Plot {idx + 1}",
                     xaxis_title="Index",
                     yaxis_title="Value",
                     hovermode="x unified",
-                    dragmode="zoom",           # ✅ enables zoom interaction
-                    showlegend=True            # ✅ always show legend
+                    dragmode="zoom",       # ✅ Enables zooming
+                    showlegend=True        # ✅ Always show legend
                 )
-
-                st.plotly_chart(fig, use_container_width=True)
                 st.plotly_chart(fig, use_container_width=True)
             else:
-                st.info("Please select at least one file and column.")
+                st.info("Please select at least one file and one column.")
 
         if st.button("➕ Add another plot"):
             next_id = max(st.session_state.plots, default=0) + 1
