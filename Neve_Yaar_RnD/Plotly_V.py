@@ -76,7 +76,7 @@ if uploaded_files:
                     showlegend=True            # ✅ always show legend
                 )
 
-st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, use_container_width=True)
                 st.plotly_chart(fig, use_container_width=True)
             else:
                 st.info("Please select at least one file and column.")
