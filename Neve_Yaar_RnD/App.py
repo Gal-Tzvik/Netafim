@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import pickle
 import altair as alt
-
+st.set_page_config(layout="wide")
 st.title("Multi-PKL Visualizer (Altair + Dynamic Plots per File)")
 
 uploaded_files = st.file_uploader("Upload one or more .pkl files", type="pkl", accept_multiple_files=True)
